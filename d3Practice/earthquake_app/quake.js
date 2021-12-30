@@ -37,16 +37,17 @@ d3.json(api_url)
                     .duration(100) // in milliseconds
                     .style("opacity", 0.7)
                 })
-                .on("mouseout", function(d, i, n)
+                .on("mouseout", function(d, i, n) {
                     d3.select(n[i])
                     .transition()
                     .duration(100) // in milliseconds
-                    .style("opacity", 0.7))
+                    .style("opacity", 0.7)
                     .attr("fill", (d, i) => d.properties.alert);
-
+                
     });
 
     
 
 
 
+    })
