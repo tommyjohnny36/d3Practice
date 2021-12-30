@@ -9,8 +9,12 @@ const svg = canvas.append("svg")
                     .attr('width', width)
                     .attr('height', height);
 
-// parse Json
+// Define the div for the tooltip
+var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
+// Parse Json
 d3.json(api_url)
     .then(data => {
         // Here we have our data and start putting all together
@@ -30,22 +34,38 @@ d3.json(api_url)
                 .attr("cx", (d, i) => Math.floor(Math.random() * 200) + d.properties.mag*i)
                 .attr("cy", (d, i) => Math.floor(Math.random() * 100) + d.properties.mag)
                 .attr("r", (d, i) => (d.properties.mag) * 2)
+                // .attr("fill", (d, i) => d.properties.alert)
                 .style('top', 156)
                 .on("mouseover", function(d, i, n){
                     d3.select(n[i])
                     .transition()
-                    .duration(100) // in milliseconds
+                    .duration(100)//in millisecond
                     .style("opacity", 0.7)
+                    console.log(d.properties.mag);
+
+                    div.transition()
+                        .duration(200)
+                        .style("opacity", 0.9);
+
+                    div.html("<p> Mag " + d.properties.mag +"</p>")
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY)+ "px")
+                    
                 })
-                .on("mouseout", function(d, i, n)
+                .on("mouseout", function(d,i,n){
                     d3.select(n[i])
                     .transition()
-                    .duration(100) // in milliseconds
-                    .style("opacity", 0.7))
-                    .attr("fill", (d, i) => d.properties.alert);
+                    .duration(100)//in millisecond
+                    .style("opacity", 1);
 
-    });
+                    div.transition()
+                        .duration(500)
+                        .style("opacity", 0)
+                })
+                .attr("fill", (d, i) => d.properties.alert);
 
+
+})
     
 
 
