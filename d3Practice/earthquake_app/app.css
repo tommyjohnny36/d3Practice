@@ -13,6 +13,7 @@ div.tooltip {
     font: 12px Helvetica, sans-serif;
     background: lightcoral;
     border: 0px;
-    border-radius: 5px;
+    border-radius: 4px;
+    pointer-events: none;
 
 }

@@ -14,6 +14,9 @@ var div = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
+function timeStamptoDate(mTime) {
+    var mDate = new Date(mTime)
+}
 // Parse Json
 d3.json(api_url)
     .then(data => {
@@ -49,7 +52,7 @@ d3.json(api_url)
 
                     div.html("<p> Mag " + d.properties.mag +"</p>")
                         .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY)+ "px")
+                        .style("top", (d3.event.pageY - 28)+ "px")
                     
                 })
                 .on("mouseout", function(d,i,n){
