@@ -1,30 +1,39 @@
 const canvas = d3.select(".canva");
 
-
+// Add an svg element
 const svg = canvas.append("svg")
             .attr("width", 600)
-            .attr("height", 600);
-const rect = svg.selectAll("rect")
+            .attr("height", 600 );
+
+const rect = svg.selectAll("rect");
+
+// create Json
 
 d3.json('text.json')
     .then(data => {
         console.log(data);
 
-rect.data(data)
-    .enter().append("rect")
-    .attr("width", 24)
-    .attr("fill", (d, i) => d.fill)
-    .attr("height", function(d) {
-        return d.height*2;
-    })
+        const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.height)])
+        .range([0, 250]);
 
-    .attr("x", function(d, i) {
-        console.log(d);
-        return i*25;
-    })
 
-    .attr("y", function(d, i) {
-        return 300 - (d.height*2)
-    })
+        const x = d3.scaleBand()
+                    .domain(data.map(item => item.fill))
+                    .range([0, 500])
+                    .paddingInner(0.1)
+                    .paddingOuter(0.2);
+
+
+        rect.data(data)
+            .enter().append("rect")
+            .attr("width", x.bandwidth)
+            .attr("height", (d, i) => y(d.height))
+            .attr("fill", (d) => d.fill)
+            .attr("x", (d,i) => x(d.fill))
+
+
+
+
 
     })
