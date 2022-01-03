@@ -5,7 +5,25 @@ const svg = canvas.append("svg")
             .attr("width", 600)
             .attr("height", 600 );
 
-const rect = svg.selectAll("rect");
+
+const margin = {
+        top: 20,
+        right: 20,
+        bottom: 70,
+        left: 70
+}
+
+// this is the standard way to set your graph height and width
+const graphWidth = 600 - margin.left - margin.right;
+const graphHeight = 600 - margin.top - margin.bottom;
+
+const graph = svg.append("g")
+                .attr("width", graphWidth) // Creating a group
+                .attr("height", graphHeight)
+                .attr("transform", `translate(${margin.left},
+                    ${margin.top})`);
+
+const rect = graph.selectAll("rect");
 
 // create Json
 
