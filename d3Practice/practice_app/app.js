@@ -25,6 +25,11 @@ const graph = svg.append("g")
 
 const rect = graph.selectAll("rect");
 
+// Create axes group
+const xAxisGroup = graph.append("g")
+        .attr("transform", `translate(0, ${graphHeight})`);
+const yAxisGroup = graph.append("g");
+
 // create Json
 
 d3.json('text.json')
@@ -32,8 +37,8 @@ d3.json('text.json')
         console.log(data);
 
         const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.height)])
-        .range([0, 250]);
+                .domain([0, d3.max(data, d => d.height)])
+                .range([graphHeight, 0]);
 
 
         const x = d3.scaleBand()
@@ -46,12 +51,15 @@ d3.json('text.json')
         rect.data(data)
             .enter().append("rect")
             .attr("width", x.bandwidth)
-            .attr("height", (d, i) => y(d.height))
+            .attr("height", (d, i) => graphHeight-y(d.height))
             .attr("fill", (d) => d.fill)
             .attr("x", (d,i) => x(d.fill))
 
 
+        const xAxis = d3.axisBottom(x);
+        const yAxis = d3.axisLeft(y);
 
-
+        xAxisGroup.call(xAxis)
+        yAxisGroup.call(yAxis)
 
     })
